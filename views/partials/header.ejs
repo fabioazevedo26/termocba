@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= titulo %> · TermoCBA</title>
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-cba shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" href="/"><i class="bi bi-file-earmark-check"></i> TermoCBA</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav me-auto">
+        <% const menu = [['/', 'Painel', 'speedometer2'], ['/termos', 'Termos', 'file-earmark-text'], ['/equipamentos', 'Equipamentos', 'laptop'], ['/colaboradores', 'Colaboradores', 'people']]; %>
+        <% menu.forEach(([href, rotulo, icone]) => { const ativo = href === '/' ? path === '/' : path.startsWith(href) || locals.secao === href; %>
+          <li class="nav-item"><a class="nav-link <%= ativo ? 'active' : '' %>" href="<%= href %>"><i class="bi bi-<%= icone %>"></i> <%= rotulo %></a></li>
+        <% }) %>
+      </ul>
+      <div class="d-flex gap-2">
+        <a href="/termos/novo" class="btn btn-light btn-sm fw-semibold"><i class="bi bi-plus-circle"></i> Emitir termo</a>
+        <form action="/logout" method="post" class="m-0">
+          <button class="btn btn-outline-light btn-sm" title="Sair"><i class="bi bi-box-arrow-right"></i> Sair</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
+<main class="container py-4">
+  <% if (ok) { %>
+    <div class="alert alert-success alert-dismissible fade show"><i class="bi bi-check-circle"></i> <%= ok %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+  <% } %>
+  <% if (erro) { %>
+    <div class="alert alert-danger alert-dismissible fade show"><i class="bi bi-exclamation-triangle"></i> <%= erro %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+  <% } %>

@@ -1,0 +1,66 @@
+<%- include('../partials/header') %>
+<% const numero = String(termo.id).padStart(5, '0'); %>
+<nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/termos">Termos</a></li><li class="breadcrumb-item active">Nº <%= numero %></li></ol></nav>
+
+<div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+  <div>
+    <h1 class="h3 mb-1">Termo nº <%= numero %>
+      <% if (termo.data_devolucao) { %><span class="badge text-bg-secondary fs-6 align-middle">Devolvido</span>
+      <% } else { %><span class="badge text-bg-primary fs-6 align-middle">Ativo</span><% } %>
+    </h1>
+    <div class="text-muted">Emitido em <%= fmt.formatarDataHora(termo.data_emissao) %>
+      <% if (termo.data_devolucao) { %> · Devolvido em <%= fmt.formatarDataHora(termo.data_devolucao) %><% } %>
+    </div>
+  </div>
+  <div class="d-flex flex-wrap gap-2">
+    <% if (termo.tem_pdf) { %>
+      <a href="/termos/<%= termo.id %>/pdf" target="_blank" class="btn btn-outline-primary"><i class="bi bi-printer"></i> Abrir / Imprimir</a>
+      <a href="/termos/<%= termo.id %>/pdf?download=1" class="btn btn-outline-primary"><i class="bi bi-download"></i> Baixar PDF</a>
+    <% } %>
+    <form action="/termos/<%= termo.id %>/regerar-pdf" method="post" data-confirm="Regerar o PDF com os dados ATUAIS do colaborador e dos equipamentos? O PDF anterior será substituído.">
+      <button class="btn btn-outline-secondary"><i class="bi bi-arrow-repeat"></i> Regerar PDF</button>
+    </form>
+    <% if (!termo.data_devolucao) { %>
+      <form action="/termos/<%= termo.id %>/devolucao" method="post" data-confirm="Confirma a devolução de todos os equipamentos deste termo? Eles voltarão ao status 'Disponível'.">
+        <button class="btn btn-warning"><i class="bi bi-box-arrow-in-left"></i> Registrar Devolução</button>
+      </form>
+    <% } %>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card mb-4">
+      <div class="card-header fw-semibold">Colaborador</div>
+      <div class="card-body">
+        <div class="fs-5"><%= colaborador.nome %></div>
+        <div class="text-muted">CPF <%= colaborador.cpf %></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header fw-semibold">Equipamentos (<%= itens.length %>)</div>
+      <ul class="list-group list-group-flush">
+        <% itens.forEach(e => { %>
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between">
+              <strong><%= e.tipo %> — <%= e.marca_modelo %></strong>
+              <%- include('../partials/status', { status: e.status }) %>
+            </div>
+            <div class="small text-muted">
+              Patrimônio: <%= e.patrimonio || '—' %> · Série: <%= e.numero_serie || '—' %> · NF: <%= e.nota_fiscal || '—' %>
+            </div>
+            <% if (e.acessorios) { %><div class="small">Acessórios: <%= e.acessorios %></div><% } %>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <% if (termo.tem_pdf) { %>
+      <iframe src="/termos/<%= termo.id %>/pdf" class="pdf-preview border rounded" title="PDF do termo"></iframe>
+    <% } else { %>
+      <div class="alert alert-warning">Este termo não possui PDF salvo. Use "Regerar PDF".</div>
+    <% } %>
+  </div>
+</div>
+<%- include('../partials/footer') %>

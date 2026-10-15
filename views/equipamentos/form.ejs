@@ -1,0 +1,50 @@
+<%- include('../partials/header') %>
+<% const e = equipamento; const editando = !!e.id; %>
+<nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/equipamentos">Equipamentos</a></li><li class="breadcrumb-item active"><%= titulo %></li></ol></nav>
+<h1 class="h3 mb-3"><%= titulo %></h1>
+<% if (erroForm) { %><div class="alert alert-danger"><%= erroForm %></div><% } %>
+
+<form method="post" action="<%= editando ? '/equipamentos/' + e.id : '/equipamentos' %>" class="card card-body">
+  <div class="row g-3">
+    <div class="col-md-4">
+      <label class="form-label">Tipo *</label>
+      <input name="tipo" class="form-control" required list="tipos" value="<%= e.tipo || '' %>" placeholder="Ex.: Notebook">
+      <datalist id="tipos">
+        <% ['Notebook', 'Desktop', 'Monitor', 'Tablet', 'Smartphone', 'Impressora', 'Teclado', 'Mouse', 'Headset', 'Webcam', 'Nobreak', 'Projetor'].forEach(t => { %><option value="<%= t %>"><% }) %>
+      </datalist>
+    </div>
+    <div class="col-md-8">
+      <label class="form-label">Marca/Modelo *</label>
+      <input name="marca_modelo" class="form-control" required value="<%= e.marca_modelo || '' %>" placeholder="Ex.: Dell Latitude 5440">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Patrimônio</label>
+      <input name="patrimonio" class="form-control" value="<%= e.patrimonio || '' %>">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Número de série</label>
+      <input name="numero_serie" class="form-control" value="<%= e.numero_serie || '' %>">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Nota fiscal</label>
+      <input name="nota_fiscal" class="form-control" value="<%= e.nota_fiscal || '' %>">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Especificações</label>
+      <textarea name="especificacoes" class="form-control" rows="4" placeholder="Ex.: Intel Core i5, 16 GB RAM, SSD 512 GB"><%= e.especificacoes || '' %></textarea>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Acessórios</label>
+      <textarea name="acessorios" class="form-control" rows="4" placeholder="Ex.: Carregador, mochila, mouse sem fio"><%= e.acessorios || '' %></textarea>
+    </div>
+    <% if (editando) { %>
+      <div class="col-12"><span class="text-muted small">Status atual:</span> <%- include('../partials/status', { status: e.status }) %>
+        <span class="text-muted small ms-2">(controlado automaticamente pela emissão e devolução de termos)</span></div>
+    <% } %>
+  </div>
+  <div class="mt-4 d-flex gap-2">
+    <button class="btn btn-primary"><i class="bi bi-save"></i> Salvar</button>
+    <a href="/equipamentos" class="btn btn-outline-secondary">Cancelar</a>
+  </div>
+</form>
+<%- include('../partials/footer') %>

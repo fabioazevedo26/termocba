@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+<h1 class="h3 mb-4">Painel</h1>
+<div class="row g-3 mb-4">
+  <% const cards = [
+    ['Equipamentos', equip.total || 0, 'laptop', '/equipamentos', 'primary'],
+    ['Disponíveis', equip.disponiveis || 0, 'check2-circle', '/equipamentos?status=Disponível', 'success'],
+    ['Em uso', equip.em_uso || 0, 'person-workspace', '/equipamentos?status=Em Uso', 'warning'],
+    ['Termos ativos', termos.ativos || 0, 'file-earmark-text', '/termos?situacao=ativos', 'info'],
+    ['Colaboradores', colab.total || 0, 'people', '/colaboradores', 'secondary'],
+  ]; %>
+  <% cards.forEach(([rotulo, valor, icone, href, cor]) => { %>
+    <div class="col-6 col-md-4 col-lg">
+      <a href="<%= href %>" class="card card-stat text-decoration-none h-100 border-<%= cor %>">
+        <div class="card-body">
+          <div class="text-<%= cor %> fs-3"><i class="bi bi-<%= icone %>"></i></div>
+          <div class="fs-2 fw-bold text-body"><%= valor %></div>
+          <div class="text-muted small"><%= rotulo %></div>
+        </div>
+      </a>
+    </div>
+  <% }) %>
+</div>
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">Termos recentes</span>
+    <a href="/termos" class="small">Ver todos</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0 align-middle">
+      <thead><tr><th>Nº</th><th>Colaborador</th><th>Itens</th><th>Emissão</th><th>Situação</th></tr></thead>
+      <tbody>
+        <% if (!recentes.length) { %>
+          <tr><td colspan="5" class="text-center text-muted py-4">Nenhum termo emitido ainda. <a href="/termos/novo">Emitir o primeiro</a>.</td></tr>
+        <% } %>
+        <% recentes.forEach(t => { %>
+          <tr class="row-link" data-href="/termos/<%= t.id %>">
+            <td><%= String(t.id).padStart(5, '0') %></td>
+            <td><%= t.nome %><div class="small text-muted"><%= t.cpf %></div></td>
+            <td><%= t.qtd_itens %></td>
+            <td><%= fmt.formatarDataHora(t.data_emissao) %></td>
+            <td><% if (t.data_devolucao) { %><span class="badge text-bg-secondary">Devolvido</span><% } else { %><span class="badge text-bg-primary">Ativo</span><% } %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('partials/footer') %>

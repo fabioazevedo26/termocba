@@ -1,0 +1,52 @@
+<%- include('../partials/header') %>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h3 mb-0">Termos de Responsabilidade</h1>
+  <a href="/termos/novo" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Emitir termo</a>
+</div>
+
+<form class="row g-2 mb-3" method="get">
+  <div class="col-md-7"><input type="search" name="q" value="<%= busca %>" class="form-control" placeholder="Buscar por nº do termo, colaborador, CPF, patrimônio ou série"></div>
+  <div class="col-md-3">
+    <select name="situacao" class="form-select">
+      <option value="">Todas as situações</option>
+      <option value="ativos" <%= situacao === 'ativos' ? 'selected' : '' %>>Ativos</option>
+      <option value="devolvidos" <%= situacao === 'devolvidos' ? 'selected' : '' %>>Devolvidos</option>
+    </select>
+  </div>
+  <div class="col-md-2 d-grid"><button class="btn btn-outline-secondary"><i class="bi bi-search"></i> Filtrar</button></div>
+</form>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0 align-middle">
+      <thead><tr><th>Nº</th><th>Colaborador</th><th>Equipamentos</th><th>Emissão</th><th>Situação</th><th class="text-end">Ações</th></tr></thead>
+      <tbody>
+        <% if (!termos.length) { %>
+          <tr><td colspan="6" class="text-center text-muted py-4">Nenhum termo encontrado.</td></tr>
+        <% } %>
+        <% termos.forEach(t => { %>
+          <tr>
+            <td><a href="/termos/<%= t.id %>"><%= String(t.id).padStart(5, '0') %></a></td>
+            <td><%= t.nome %><div class="small text-muted"><%= t.cpf %></div></td>
+            <td class="small"><%= t.resumo_itens %></td>
+            <td class="text-nowrap"><%= fmt.formatarData(t.data_emissao) %></td>
+            <td>
+              <% if (t.data_devolucao) { %><span class="badge text-bg-secondary">Devolvido em <%= fmt.formatarData(t.data_devolucao) %></span>
+              <% } else { %><span class="badge text-bg-primary">Ativo</span><% } %>
+            </td>
+            <td class="text-end text-nowrap">
+              <a href="/termos/<%= t.id %>" class="btn btn-sm btn-outline-primary" title="Abrir"><i class="bi bi-eye"></i></a>
+              <a href="/termos/<%= t.id %>/pdf" target="_blank" class="btn btn-sm btn-outline-secondary" title="PDF"><i class="bi bi-filetype-pdf"></i></a>
+              <% if (!t.data_devolucao) { %>
+                <form action="/termos/<%= t.id %>/devolucao" method="post" class="d-inline" data-confirm="Registrar a devolução de todos os equipamentos do termo nº <%= t.id %>?">
+                  <button class="btn btn-sm btn-outline-warning" title="Registrar devolução"><i class="bi bi-box-arrow-in-left"></i></button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../partials/footer') %>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Termo de Responsabilidade nº <%= String(termo.id).padStart(5, '0') %></title>
+<style>
+  @page { size: A4; }
+  * { box-sizing: border-box; }
+  body { font-family: "Liberation Sans", Arial, Helvetica, sans-serif; font-size: 11pt; line-height: 1.45; color: #111; margin: 0; }
+  .cabecalho { display: flex; align-items: center; border-bottom: 2.5px solid #1b5e20; padding-bottom: 8px; margin-bottom: 14px; }
+  .logo { height: 72px; width: auto; margin-right: 16px; flex-shrink: 0; }
+  .cabecalho h1 { font-size: 15pt; margin: 0; color: #1b5e20; }
+  .cabecalho .sub { font-size: 9pt; color: #555; }
+  h2.titulo { text-align: center; font-size: 13pt; margin: 6px 0 2px; text-transform: uppercase; letter-spacing: .5px; }
+  .numero { text-align: center; font-size: 9.5pt; color: #444; margin-bottom: 14px; }
+  h3 { font-size: 11pt; margin: 16px 0 6px; text-transform: uppercase; color: #1b5e20; page-break-after: avoid; }
+  h4 { font-size: 10.5pt; margin: 10px 0 4px; page-break-after: avoid; }
+  p { margin: 0 0 7px; text-align: justify; }
+  ul { margin: 0 0 7px; padding-left: 20px; }
+  li { margin-bottom: 3px; text-align: justify; }
+  table.equip { width: 100%; border-collapse: collapse; margin-bottom: 10px; page-break-inside: avoid; font-size: 10pt; }
+  table.equip caption { text-align: left; font-weight: bold; padding: 4px 0; font-size: 10pt; }
+  table.equip th, table.equip td { border: 1px solid #999; padding: 4px 7px; vertical-align: top; }
+  table.equip th { background: #eef4ee; width: 28%; text-align: left; font-weight: 600; }
+  .pre { white-space: pre-line; }
+  .local-data { margin: 22px 0 8px; text-align: right; }
+  .assinaturas { margin-top: 18px; page-break-inside: avoid; }
+  .assinaturas .local-data { margin-bottom: 48px; }
+  .assinaturas .linha.unica { justify-content: center; }
+  .assinaturas .linha.unica .assinatura { flex: 0 0 50%; }
+  .assinaturas .linha { display: flex; justify-content: space-between; gap: 30px; margin-bottom: 48px; }
+  .assinatura { flex: 1; text-align: center; font-size: 10pt; }
+  .assinatura .traco { border-top: 1px solid #000; margin-bottom: 4px; padding-top: 4px; }
+  .assinatura .det { font-size: 8.5pt; color: #444; }
+</style>
+</head>
+<body>
+  <div class="cabecalho">
+    <img class="logo" src="<%= logo %>" alt="CBA">
+    <div>
+      <h1>CBA - Centro de Bionegócios da Amazônia</h1>
+      <div class="sub">Setor de Tecnologia da Informação</div>
+    </div>
+  </div>
+
+  <h2 class="titulo">Termo de Responsabilidade por Equipamento de Informática</h2>
+  <div class="numero">Termo nº <%= String(termo.id).padStart(5, '0') %> · Emitido em <%= dataExtenso %></div>
+
+  <h3>1. Identificação do Colaborador</h3>
+  <p>
+    Eu, <strong><%= colaborador.nome %></strong>, portador(a) do CPF n° <strong><%= colaborador.cpf %></strong>,
+    declaro que recebi do Centro de Bionegócios da Amazônia – CBA o<%= itens.length > 1 ? 's' : '' %>
+    equipamento<%= itens.length > 1 ? 's' : '' %> de informática descrito<%= itens.length > 1 ? 's' : '' %> neste Termo,
+    em perfeito estado de conservação e funcionamento, comprometendo-me a utilizá-lo<%= itens.length > 1 ? 's' : '' %>
+    exclusivamente para o desempenho das minhas atividades profissionais, nas condições estabelecidas a seguir.
+  </p>
+
+  <h3>2. Identificação do Equipamento</h3>
+  <% itens.forEach((e, i) => { %>
+    <table class="equip">
+      <% if (itens.length > 1) { %><caption>Item <%= i + 1 %> de <%= itens.length %></caption><% } %>
+      <tr><th>Tipo</th><td><%= e.tipo %></td></tr>
+      <tr><th>Marca/Modelo</th><td><%= e.marca_modelo %></td></tr>
+      <tr><th>Patrimônio</th><td><%= e.patrimonio || 'Não informado' %></td></tr>
+      <tr><th>Número de Série</th><td><%= e.numero_serie || 'Não informado' %></td></tr>
+      <tr><th>Nota Fiscal</th><td><%= e.nota_fiscal || 'Não informada' %></td></tr>
+      <tr><th>Especificações</th><td class="pre"><%= e.especificacoes || '—' %></td></tr>
+      <tr><th>Acessórios</th><td class="pre"><%= e.acessorios || 'Nenhum' %></td></tr>
+    </table>
+  <% }) %>
+
+  <h3>3. Natureza da Cessão</h3>
+  <p>
+    O(s) equipamento(s) descrito(s) neste Termo é(são) de propriedade exclusiva do Centro de Bionegócios da Amazônia – CBA,
+    sendo cedido(s) ao colaborador em caráter de empréstimo, a título gratuito, exclusivamente para uso institucional
+    e no interesse das atividades do CBA.
+  </p>
+  <p>
+    É expressamente proibido ao colaborador ceder, emprestar, alugar, transferir ou de qualquer forma disponibilizar
+    o(s) equipamento(s) a terceiros, ainda que temporariamente, bem como utilizá-lo(s) para fins particulares
+    ou alheios às atividades institucionais.
+  </p>
+
+  <h3>4. Responsabilidades do Colaborador</h3>
+  <p>O colaborador compromete-se a:</p>
+  <ul>
+    <li>zelar pela guarda, conservação e bom uso do(s) equipamento(s) e de seus acessórios, mantendo-os em local seguro e adequado;</li>
+    <li>comunicar imediatamente ao Setor de TI qualquer defeito, falha de funcionamento, dano, perda ou ocorrência envolvendo o(s) equipamento(s);</li>
+    <li>não realizar, por conta própria ou por meio de terceiros não autorizados, manutenções, reparos ou intervenções técnicas;</li>
+    <li>observar as políticas de segurança da informação e de uso de recursos de TI vigentes no CBA.</li>
+  </ul>
+  <h4>4.1 Roubo, furto ou extravio</h4>
+  <p>
+    Em caso de roubo, furto ou extravio, o colaborador deverá comunicar o fato imediatamente ao Setor de TI e à
+    Diretoria Administrativa e providenciar o respectivo Boletim de Ocorrência junto à autoridade policial,
+    apresentando cópia ao CBA no prazo máximo de 48 (quarenta e oito) horas. A ausência de comunicação ou a
+    constatação de negligência poderá implicar a responsabilização do colaborador pelo ressarcimento do valor
+    do bem, nos termos da legislação vigente.
+  </p>
+  <h4>4.2 Danos ao equipamento</h4>
+  <p>
+    Danos decorrentes do desgaste natural pelo uso regular não serão imputados ao colaborador. Danos causados por
+    mau uso, negligência, imprudência, imperícia ou dolo poderão ser ressarcidos pelo colaborador, mediante
+    apuração prévia pelo CBA, nos termos do art. 462, § 1º, da Consolidação das Leis do Trabalho (CLT), quando aplicável.
+  </p>
+
+  <h3>5. Uso e Controle</h3>
+  <p>
+    O Setor de TI poderá, a qualquer tempo, realizar verificações, inspeções, atualizações e manutenções
+    preventivas ou corretivas no(s) equipamento(s), presencial ou remotamente, devendo o colaborador
+    disponibilizá-lo(s) sempre que solicitado.
+  </p>
+  <p>
+    É vedada ao colaborador qualquer alteração na configuração de hardware (inclusão, remoção ou substituição
+    de peças e componentes), a remoção de etiquetas de patrimônio, bem como a instalação de softwares não
+    licenciados ou não autorizados pelo Setor de TI.
+  </p>
+
+  <h3>6. Devolução</h3>
+  <p>
+    O colaborador obriga-se a devolver o(s) equipamento(s), juntamente com todos os acessórios relacionados neste
+    Termo, nas mesmas condições em que o(s) recebeu, ressalvado o desgaste natural pelo uso regular, sempre que
+    solicitado pelo CBA ou, obrigatoriamente, por ocasião do seu desligamento, afastamento prolongado ou mudança
+    de função que dispense o uso do(s) equipamento(s). A devolução será conferida e registrada pelo Setor de TI.
+  </p>
+
+  <h3>7. Disposições Finais</h3>
+  <p>
+    Este Termo entra em vigor na data de sua assinatura e permanece válido enquanto o(s) equipamento(s) estiver(em)
+    sob a posse do colaborador, extinguindo-se com o registro formal da devolução pelo Setor de TI. Os casos omissos
+    serão resolvidos pela Diretoria Administrativa do CBA.
+  </p>
+  <p>
+    E, por estar de pleno acordo com as condições aqui estabelecidas, o colaborador firma o presente Termo.
+  </p>
+
+  <div class="assinaturas">
+    <p class="local-data">Manaus/AM, <%= dataExtenso %>.</p>
+    <div class="linha unica">
+      <div class="assinatura">
+        <div class="traco">Colaborador(a)</div>
+        <div class="det"><%= colaborador.nome %><br>CPF <%= colaborador.cpf %></div>
+      </div>
+    </div>
+    <div class="linha">
+      <div class="assinatura">
+        <div class="traco">Diretoria Administrativa</div>
+        <div class="det">CBA - Centro de Bionegócios da Amazônia</div>
+      </div>
+      <div class="assinatura">
+        <div class="traco">Setor de TI</div>
+        <div class="det">CBA - Centro de Bionegócios da Amazônia</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

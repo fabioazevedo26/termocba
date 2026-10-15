@@ -1,0 +1,26 @@
+services:
+  termocba:
+    build: .
+    image: termocba:latest
+    container_name: termocba
+    ports:
+      # Porta do host:porta do contêiner. Para acessar sem ":3000" na URL, use PORTA=80 no .env.
+      - "${PORTA:-3000}:3000"
+    environment:
+      - PORT=3000
+      - DATA_DIR=/app/data
+      - TZ=America/Manaus
+      # Credenciais da tela de login: defina no arquivo .env (fora do git). Padrão: admin/admin.
+      - ADMIN_USER=${ADMIN_USER:-admin}
+      - ADMIN_PASS=${ADMIN_PASS:-admin}
+    volumes:
+      # PERSISTÊNCIA: o banco SQLite (com os PDFs em Base64) fica em ./data no host.
+      # Não apague esta pasta. Ela sobrevive a reinícios e recriações do contêiner.
+      - ./data:/app/data
+    init: true
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

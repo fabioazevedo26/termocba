@@ -1,0 +1,51 @@
+<%- include('../partials/header') %>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h3 mb-0">Equipamentos</h1>
+  <a href="/equipamentos/novo" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Novo equipamento</a>
+</div>
+
+<form class="row g-2 mb-3" method="get">
+  <div class="col-md-7"><input type="search" name="q" value="<%= busca %>" class="form-control" placeholder="Buscar por tipo, modelo, patrimônio, série ou nota fiscal"></div>
+  <div class="col-md-3">
+    <select name="status" class="form-select">
+      <option value="">Todos os status</option>
+      <% ['Disponível', 'Em Uso'].forEach(s => { %><option <%= status === s ? 'selected' : '' %>><%= s %></option><% }) %>
+    </select>
+  </div>
+  <div class="col-md-2 d-grid"><button class="btn btn-outline-secondary"><i class="bi bi-search"></i> Filtrar</button></div>
+</form>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0 align-middle">
+      <thead>
+        <tr><th>Tipo</th><th>Marca/Modelo</th><th>Patrimônio</th><th>Nº de série</th><th>NF</th><th>Status</th><th class="text-end">Ações</th></tr>
+      </thead>
+      <tbody>
+        <% if (!equipamentos.length) { %>
+          <tr><td colspan="7" class="text-center text-muted py-4">Nenhum equipamento encontrado.</td></tr>
+        <% } %>
+        <% equipamentos.forEach(e => { %>
+          <tr>
+            <td><%= e.tipo %></td>
+            <td><%= e.marca_modelo %></td>
+            <td><%= e.patrimonio || '—' %></td>
+            <td><%= e.numero_serie || '—' %></td>
+            <td><%= e.nota_fiscal || '—' %></td>
+            <td>
+              <%- include('../partials/status', { status: e.status }) %>
+              <% if (e.termo_ativo_id) { %><a href="/termos/<%= e.termo_ativo_id %>" class="small ms-1">termo nº <%= e.termo_ativo_id %></a><% } %>
+            </td>
+            <td class="text-end text-nowrap">
+              <a href="/equipamentos/<%= e.id %>/editar" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i></a>
+              <form action="/equipamentos/<%= e.id %>/excluir" method="post" class="d-inline" data-confirm="Excluir o equipamento <%= e.tipo %> <%= e.marca_modelo %>?">
+                <button class="btn btn-sm btn-outline-danger" title="Excluir" <%= e.status === 'Em Uso' ? 'disabled' : '' %>><i class="bi bi-trash"></i></button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../partials/footer') %>

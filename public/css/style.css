@@ -1,0 +1,18 @@
+:root { --cba-verde: #1b5e20; }
+body { background: #f5f7f6; display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1; }
+.bg-cba { background: var(--cba-verde); }
+.btn-primary { --bs-btn-bg: var(--cba-verde); --bs-btn-border-color: var(--cba-verde); --bs-btn-hover-bg: #144a18; --bs-btn-hover-border-color: #144a18; --bs-btn-active-bg: #103913; }
+.btn-outline-primary { --bs-btn-color: var(--cba-verde); --bs-btn-border-color: var(--cba-verde); --bs-btn-hover-bg: var(--cba-verde); --bs-btn-hover-border-color: var(--cba-verde); --bs-btn-active-bg: var(--cba-verde); --bs-btn-active-border-color: var(--cba-verde); }
+a { color: var(--cba-verde); }
+.card-stat { transition: transform .1s, box-shadow .1s; border-left-width: 4px !important; }
+.card-stat:hover { transform: translateY(-2px); box-shadow: 0 .25rem .75rem rgba(0,0,0,.08); }
+.row-link { cursor: pointer; }
+.equip-scroll { max-height: 420px; overflow-y: auto; }
+.equip-scroll thead th { background: #fff; }
+.equip-row { cursor: pointer; }
+.equip-row.table-success > td { --bs-table-bg-state: #d8eedb; }
+.pdf-preview { width: 100%; height: 75vh; background: #fff; }
+.login-page { background: linear-gradient(160deg, #e8f3ea 0%, #f5f7f6 60%); }
+.login-card { width: 100%; max-width: 380px; }
+.login-logo { height: 96px; width: auto; }

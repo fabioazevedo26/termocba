@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+<% const c = colaborador; const editando = !!c.id; %>
+<nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/colaboradores">Colaboradores</a></li><li class="breadcrumb-item active"><%= titulo %></li></ol></nav>
+<h1 class="h3 mb-3"><%= titulo %></h1>
+<% if (erroForm) { %><div class="alert alert-danger"><%= erroForm %></div><% } %>
+
+<form method="post" action="<%= editando ? '/colaboradores/' + c.id : '/colaboradores' %>" class="card card-body">
+  <div class="row g-3">
+    <div class="col-md-8">
+      <label class="form-label">Nome completo *</label>
+      <input name="nome" class="form-control" required value="<%= c.nome || '' %>">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">CPF *</label>
+      <input name="cpf" class="form-control" required data-mask="cpf" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" value="<%= c.cpf || '' %>">
+    </div>
+  </div>
+  <div class="mt-4 d-flex gap-2">
+    <button class="btn btn-primary"><i class="bi bi-save"></i> Salvar</button>
+    <a href="/colaboradores" class="btn btn-outline-secondary">Cancelar</a>
+  </div>
+</form>
+<%- include('../partials/footer') %>
