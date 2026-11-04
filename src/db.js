@@ -69,6 +69,7 @@ async function init() {
       id              INTEGER PRIMARY KEY AUTOINCREMENT,
       tipo            TEXT NOT NULL,
       marca_modelo    TEXT NOT NULL,
+      projeto         TEXT,
       patrimonio      TEXT UNIQUE,
       numero_serie    TEXT,
       nota_fiscal     TEXT,
@@ -96,6 +97,11 @@ async function init() {
     CREATE INDEX IF NOT EXISTS idx_termo_itens_equip ON termo_itens(equipamento_id);
     CREATE INDEX IF NOT EXISTS idx_equip_status ON equipamentos(status);
   `);
+
+  const colunas = await all('PRAGMA table_info(equipamentos)');
+  if (!colunas.some((c) => c.name === 'projeto')) {
+    await exec('ALTER TABLE equipamentos ADD COLUMN projeto TEXT');
+  }
 }
 
 module.exports = { db, run, get, all, exec, withTransaction, init, DB_FILE, DATA_DIR };

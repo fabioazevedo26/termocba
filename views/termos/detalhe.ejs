@@ -47,7 +47,7 @@
               <%- include('../partials/status', { status: e.status }) %>
             </div>
             <div class="small text-muted">
-              Patrimônio: <%= e.patrimonio || '—' %> · Série: <%= e.numero_serie || '—' %> · NF: <%= e.nota_fiscal || '—' %>
+              Projeto: <%= e.projeto || '—' %> · Patrimônio: <%= e.patrimonio || '—' %> · Série: <%= e.numero_serie || '—' %> · NF: <%= e.nota_fiscal || '—' %>
             </div>
             <% if (e.acessorios) { %><div class="small">Acessórios: <%= e.acessorios %></div><% } %>
           </li>

@@ -61,6 +61,7 @@
       <% if (itens.length > 1) { %><caption>Item <%= i + 1 %> de <%= itens.length %></caption><% } %>
       <tr><th>Tipo</th><td><%= e.tipo %></td></tr>
       <tr><th>Marca/Modelo</th><td><%= e.marca_modelo %></td></tr>
+      <tr><th>Projeto</th><td><%= e.projeto || 'Não informado' %></td></tr>
       <tr><th>Patrimônio</th><td><%= e.patrimonio || 'Não informado' %></td></tr>
       <tr><th>Número de Série</th><td><%= e.numero_serie || 'Não informado' %></td></tr>
       <tr><th>Nota Fiscal</th><td><%= e.nota_fiscal || 'Não informada' %></td></tr>

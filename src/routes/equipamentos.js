@@ -4,7 +4,7 @@ const { limpar } = require('../utils');
 
 const router = express.Router();
 
-const CAMPOS = ['tipo', 'marca_modelo', 'patrimonio', 'numero_serie', 'nota_fiscal', 'especificacoes', 'acessorios'];
+const CAMPOS = ['tipo', 'marca_modelo', 'projeto', 'patrimonio', 'numero_serie', 'nota_fiscal', 'especificacoes', 'acessorios'];
 
 function lerForm(body) {
   const dados = {};
@@ -16,6 +16,18 @@ function validar(d) {
   if (!d.tipo) return 'Informe o tipo do equipamento.';
   if (!d.marca_modelo) return 'Informe a marca/modelo.';
   return null;
+}
+
+async function projetosExistentes() {
+  const rows = await all(
+    `SELECT DISTINCT projeto FROM equipamentos WHERE projeto IS NOT NULL AND projeto <> '' ORDER BY projeto`
+  );
+  return rows.map((r) => r.projeto);
+}
+
+async function renderForm(res, { status = 200, titulo, equipamento, erroForm }) {
+  const projetos = await projetosExistentes();
+  res.status(status).render('equipamentos/form', { titulo, equipamento, erroForm, projetos });
 }
 
 function mensagemErroDb(err) {
@@ -31,8 +43,8 @@ router.get('/', async (req, res) => {
   const where = [];
   const params = [];
   if (busca) {
-    where.push(`(tipo LIKE ? OR marca_modelo LIKE ? OR patrimonio LIKE ? OR numero_serie LIKE ? OR nota_fiscal LIKE ?)`);
-    params.push(...Array(5).fill(`%${busca}%`));
+    where.push(`(tipo LIKE ? OR marca_modelo LIKE ? OR projeto LIKE ? OR patrimonio LIKE ? OR numero_serie LIKE ? OR nota_fiscal LIKE ?)`);
+    params.push(...Array(6).fill(`%${busca}%`));
   }
   if (status) {
     where.push('status = ?');
@@ -51,15 +63,15 @@ router.get('/', async (req, res) => {
   res.render('equipamentos/lista', { titulo: 'Equipamentos', equipamentos, busca, status });
 });
 
-router.get('/novo', (req, res) => {
-  res.render('equipamentos/form', { titulo: 'Novo equipamento', equipamento: {}, erroForm: null });
+router.get('/novo', async (req, res) => {
+  await renderForm(res, { titulo: 'Novo equipamento', equipamento: {}, erroForm: null });
 });
 
 router.post('/', async (req, res) => {
   const dados = lerForm(req.body);
   const erroForm = validar(dados);
   if (erroForm) {
-    return res.status(400).render('equipamentos/form', { titulo: 'Novo equipamento', equipamento: dados, erroForm });
+    return renderForm(res, { status: 400, titulo: 'Novo equipamento', equipamento: dados, erroForm });
   }
   try {
     await run(
@@ -67,8 +79,8 @@ router.post('/', async (req, res) => {
       CAMPOS.map((c) => dados[c])
     );
   } catch (err) {
-    return res.status(400).render('equipamentos/form', {
-      titulo: 'Novo equipamento', equipamento: dados, erroForm: mensagemErroDb(err),
+    return renderForm(res, {
+      status: 400, titulo: 'Novo equipamento', equipamento: dados, erroForm: mensagemErroDb(err),
     });
   }
   res.redirect('/equipamentos?ok=' + encodeURIComponent('Equipamento cadastrado com sucesso.'));
@@ -77,7 +89,7 @@ router.post('/', async (req, res) => {
 router.get('/:id/editar', async (req, res) => {
   const equipamento = await get('SELECT * FROM equipamentos WHERE id = ?', [req.params.id]);
   if (!equipamento) return res.redirect('/equipamentos?erro=' + encodeURIComponent('Equipamento não encontrado.'));
-  res.render('equipamentos/form', { titulo: 'Editar equipamento', equipamento, erroForm: null });
+  await renderForm(res, { titulo: 'Editar equipamento', equipamento, erroForm: null });
 });
 
 router.post('/:id', async (req, res) => {
@@ -87,7 +99,7 @@ router.post('/:id', async (req, res) => {
   const equipamento = { ...atual, ...dados };
   const erroForm = validar(dados);
   if (erroForm) {
-    return res.status(400).render('equipamentos/form', { titulo: 'Editar equipamento', equipamento, erroForm });
+    return renderForm(res, { status: 400, titulo: 'Editar equipamento', equipamento, erroForm });
   }
   try {
     await run(
@@ -95,8 +107,8 @@ router.post('/:id', async (req, res) => {
       [...CAMPOS.map((c) => dados[c]), atual.id]
     );
   } catch (err) {
-    return res.status(400).render('equipamentos/form', {
-      titulo: 'Editar equipamento', equipamento, erroForm: mensagemErroDb(err),
+    return renderForm(res, {
+      status: 400, titulo: 'Editar equipamento', equipamento, erroForm: mensagemErroDb(err),
     });
   }
   res.redirect('/equipamentos?ok=' + encodeURIComponent('Equipamento atualizado.'));

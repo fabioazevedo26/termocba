@@ -47,20 +47,21 @@
       <span class="badge text-bg-primary" id="contador-sel">0 selecionado(s)</span>
     </div>
     <div class="card-body pb-0">
-      <input type="search" class="form-control" id="filtro-equip" placeholder="Filtrar por tipo, modelo, patrimônio ou série...">
+      <input type="search" class="form-control" id="filtro-equip" placeholder="Filtrar por tipo, modelo, projeto, patrimônio ou série...">
     </div>
     <div class="table-responsive equip-scroll">
       <table class="table table-hover mb-0 align-middle" id="tabela-equip">
-        <thead class="sticky-top"><tr><th style="width:40px"></th><th>Tipo</th><th>Marca/Modelo</th><th>Patrimônio</th><th>Nº de série</th><th>Acessórios</th></tr></thead>
+        <thead class="sticky-top"><tr><th style="width:40px"></th><th>Tipo</th><th>Marca/Modelo</th><th>Projeto</th><th>Patrimônio</th><th>Nº de série</th><th>Acessórios</th></tr></thead>
         <tbody>
           <% if (!equipamentos.length) { %>
-            <tr><td colspan="6" class="text-center text-muted py-4">Nenhum equipamento disponível. <a href="/equipamentos/novo">Cadastrar equipamento</a>.</td></tr>
+            <tr><td colspan="7" class="text-center text-muted py-4">Nenhum equipamento disponível. <a href="/equipamentos/novo">Cadastrar equipamento</a>.</td></tr>
           <% } %>
           <% equipamentos.forEach(e => { %>
             <tr class="equip-row">
               <td><input type="checkbox" class="form-check-input equip-check" name="equipamentos" value="<%= e.id %>" id="eq-<%= e.id %>" <%= selecionados.includes(String(e.id)) ? 'checked' : '' %>></td>
               <td><label for="eq-<%= e.id %>" class="stretched-label"><%= e.tipo %></label></td>
               <td><%= e.marca_modelo %></td>
+              <td><%= e.projeto || '—' %></td>
               <td><%= e.patrimonio || '—' %></td>
               <td><%= e.numero_serie || '—' %></td>
               <td class="small text-muted"><%= e.acessorios || '' %></td>

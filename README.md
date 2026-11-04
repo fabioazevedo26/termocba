@@ -27,7 +27,7 @@ Os dados sobrevivem a `docker compose down`, a reinícios e a rebuilds.
 | Módulo | O que faz |
 |---|---|
 | Painel | Contadores (equipamentos, disponíveis, em uso, termos ativos) e termos recentes |
-| Equipamentos | CRUD. Entra como **Disponível**. O status muda só pela emissão e pela devolução de termos. Um equipamento em uso ou que já consta em algum termo não pode ser excluído |
+| Equipamentos | CRUD com campo opcional **Projeto** (texto livre com sugestões). Entra como **Disponível**. O status muda só pela emissão e pela devolução de termos. Um equipamento em uso ou que já consta em algum termo não pode ser excluído |
 | Colaboradores | CRUD com validação e máscara de CPF (o CPF é único). Quem tem termos não pode ser excluído |
 | Emitir termo | Seleciona um colaborador existente ou cadastra um novo na hora, marca 1 ou mais equipamentos **Disponíveis** e gera o PDF |
 | Termos | Busca por nº, nome, CPF, patrimônio ou série. Visualizar, imprimir ou baixar o PDF. **Registrar Devolução**. Regerar o PDF |
@@ -57,7 +57,7 @@ public/              CSS e JS do front
 
 ### Modelo de dados
 - `colaboradores(id, nome, cpf UNIQUE)`
-- `equipamentos(id, tipo, marca_modelo, patrimonio UNIQUE, numero_serie, nota_fiscal, especificacoes, acessorios, status CHECK IN ('Disponível','Em Uso'))`
+- `equipamentos(id, tipo, marca_modelo, projeto, patrimonio UNIQUE, numero_serie, nota_fiscal, especificacoes, acessorios, status CHECK IN ('Disponível','Em Uso'))`
 - `termos(id, colaborador_id FK, data_emissao, data_devolucao, arquivo_pdf TEXT/Base64)`
 - `termo_itens(termo_id FK, equipamento_id FK, PK(termo_id, equipamento_id))`
 

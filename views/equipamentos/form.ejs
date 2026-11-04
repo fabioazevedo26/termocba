@@ -13,9 +13,16 @@
         <% ['Notebook', 'Desktop', 'Monitor', 'Tablet', 'Smartphone', 'Impressora', 'Teclado', 'Mouse', 'Headset', 'Webcam', 'Nobreak', 'Projetor'].forEach(t => { %><option value="<%= t %>"><% }) %>
       </datalist>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-4">
       <label class="form-label">Marca/Modelo *</label>
       <input name="marca_modelo" class="form-control" required value="<%= e.marca_modelo || '' %>" placeholder="Ex.: Dell Latitude 5440">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Projeto</label>
+      <input name="projeto" class="form-control" list="projetos" value="<%= e.projeto || '' %>" placeholder="Ex.: Projeto Amazonas">
+      <datalist id="projetos">
+        <% projetos.forEach(p => { %><option value="<%= p %>"><% }) %>
+      </datalist>
     </div>
     <div class="col-md-4">
       <label class="form-label">Patrimônio</label>
