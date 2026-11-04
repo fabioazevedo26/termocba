@@ -6,32 +6,31 @@
 <style>
   @page { size: A4; }
   * { box-sizing: border-box; }
-  body { font-family: "Liberation Sans", Arial, Helvetica, sans-serif; font-size: 11pt; line-height: 1.45; color: #111; margin: 0; }
+  body { font-family: "Liberation Sans", Arial, Helvetica, sans-serif; font-size: 12pt; line-height: 1.3; color: #111; margin: 0; }
   .cabecalho { display: flex; align-items: center; border-bottom: 2.5px solid #1b5e20; padding-bottom: 8px; margin-bottom: 14px; }
   .logo { height: 72px; width: auto; margin-right: 16px; flex-shrink: 0; }
   .cabecalho h1 { font-size: 15pt; margin: 0; color: #1b5e20; }
-  .cabecalho .sub { font-size: 9pt; color: #555; }
-  h2.titulo { text-align: center; font-size: 13pt; margin: 6px 0 2px; text-transform: uppercase; letter-spacing: .5px; }
-  .numero { text-align: center; font-size: 9.5pt; color: #444; margin-bottom: 14px; }
-  h3 { font-size: 11pt; margin: 16px 0 6px; text-transform: uppercase; color: #1b5e20; page-break-after: avoid; }
-  h4 { font-size: 10.5pt; margin: 10px 0 4px; page-break-after: avoid; }
-  p { margin: 0 0 7px; text-align: justify; }
-  ul { margin: 0 0 7px; padding-left: 20px; }
-  li { margin-bottom: 3px; text-align: justify; }
-  table.equip { width: 100%; border-collapse: collapse; margin-bottom: 10px; page-break-inside: avoid; font-size: 10pt; }
-  table.equip caption { text-align: left; font-weight: bold; padding: 4px 0; font-size: 10pt; }
-  table.equip th, table.equip td { border: 1px solid #999; padding: 4px 7px; vertical-align: top; }
+  .cabecalho .sub { font-size: 9.5pt; color: #555; }
+  h2.titulo { text-align: center; font-size: 14pt; margin: 6px 0 2px; text-transform: uppercase; letter-spacing: .5px; }
+  .numero { text-align: center; font-size: 10pt; color: #444; margin-bottom: 14px; }
+  h3 { font-size: 12pt; margin: 10px 0 4px; text-transform: uppercase; color: #1b5e20; page-break-after: avoid; }
+  h4 { font-size: 12pt; margin: 6px 0 3px; page-break-after: avoid; }
+  p { margin: 0 0 4px; text-align: justify; }
+  ul { margin: 0 0 4px; padding-left: 18px; }
+  li { margin-bottom: 1px; text-align: justify; }
+  table.equip { width: 100%; border-collapse: collapse; margin-bottom: 6px; page-break-inside: avoid; font-size: 10.5pt; }
+  table.equip caption { text-align: left; font-weight: bold; padding: 4px 0; font-size: 11pt; }
+  table.equip th, table.equip td { border: 1px solid #999; padding: 2px 5px; vertical-align: top; }
   table.equip th { background: #eef4ee; width: 28%; text-align: left; font-weight: 600; }
   .pre { white-space: pre-line; }
-  .local-data { margin: 22px 0 8px; text-align: right; }
-  .assinaturas { margin-top: 18px; page-break-inside: avoid; }
-  .assinaturas .local-data { margin-bottom: 48px; }
+  .assinaturas { margin-top: 60px; page-break-inside: avoid; }
+  .quebra-pagina { page-break-before: always; }
   .assinaturas .linha.unica { justify-content: center; }
   .assinaturas .linha.unica .assinatura { flex: 0 0 50%; }
-  .assinaturas .linha { display: flex; justify-content: space-between; gap: 30px; margin-bottom: 48px; }
-  .assinatura { flex: 1; text-align: center; font-size: 10pt; }
+  .assinaturas .linha { display: flex; justify-content: space-between; gap: 30px; margin-bottom: 30px; }
+  .assinatura { flex: 1; text-align: center; font-size: 11.5pt; }
   .assinatura .traco { border-top: 1px solid #000; margin-bottom: 4px; padding-top: 4px; }
-  .assinatura .det { font-size: 8.5pt; color: #444; }
+  .assinatura .det { font-size: 10pt; color: #444; }
 </style>
 </head>
 <body>
@@ -90,7 +89,7 @@
     <li>não realizar, por conta própria ou por meio de terceiros não autorizados, manutenções, reparos ou intervenções técnicas;</li>
     <li>observar as políticas de segurança da informação e de uso de recursos de TI vigentes no CBA.</li>
   </ul>
-  <h4>4.1 Roubo, furto ou extravio</h4>
+  <h4 class="quebra-pagina">4.1 Roubo, furto ou extravio</h4>
   <p>
     Em caso de roubo, furto ou extravio, o colaborador deverá comunicar o fato imediatamente ao Setor de TI e à
     Diretoria Administrativa e providenciar o respectivo Boletim de Ocorrência junto à autoridade policial,
@@ -136,7 +135,6 @@
   </p>
 
   <div class="assinaturas">
-    <p class="local-data">Manaus/AM, <%= dataExtenso %>.</p>
     <div class="linha unica">
       <div class="assinatura">
         <div class="traco">Colaborador(a)</div>

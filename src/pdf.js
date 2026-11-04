@@ -66,12 +66,11 @@ async function gerarPdfTermo({ termo, colaborador, itens }) {
     const pdf = await page.pdf({
       format: 'A4',
       printBackground: true,
-      margin: { top: '15mm', bottom: '18mm', left: '20mm', right: '20mm' },
+      margin: { top: '12mm', bottom: '14mm', left: '16mm', right: '16mm' },
       displayHeaderFooter: true,
       headerTemplate: '<span></span>',
       footerTemplate: `
-        <div style="font-family: Arial, sans-serif; font-size: 8px; color: #666; width: 100%; padding: 0 20mm; display: flex; justify-content: space-between;">
-          <span>Termo de Responsabilidade nº ${String(termo.id).padStart(5, '0')}</span>
+        <div style="font-family: Arial, sans-serif; font-size: 8px; color: #666; width: 100%; padding: 0 16mm; display: flex; justify-content: flex-end;">
           <span>Página <span class="pageNumber"></span> de <span class="totalPages"></span></span>
         </div>`,
     });
