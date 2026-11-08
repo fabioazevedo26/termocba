@@ -38,9 +38,9 @@ router.get('/', async (req, res) => {
     const digitos = /^[\d.\-\s]+$/.test(busca) ? somenteDigitos(busca) : '';
     where.push(`(c.nome LIKE ? OR REPLACE(REPLACE(c.cpf, '.', ''), '-', '') LIKE ? OR CAST(t.id AS TEXT) = ? OR EXISTS (
       SELECT 1 FROM termo_itens i JOIN equipamentos e ON e.id = i.equipamento_id
-       WHERE i.termo_id = t.id AND (e.patrimonio LIKE ? OR e.numero_serie LIKE ?)))`);
+       WHERE i.termo_id = t.id AND (e.patrimonio LIKE ? OR e.numero_serie LIKE ? OR e.projeto LIKE ?)))`);
     params.push(`%${busca}%`, digitos ? `%${digitos}%` : '-', digitos.replace(/^0+/, ''),
-      `%${busca}%`, `%${busca}%`);
+      `%${busca}%`, `%${busca}%`, `%${busca}%`);
   }
   if (situacao === 'ativos') where.push('t.data_devolucao IS NULL');
   if (situacao === 'devolvidos') where.push('t.data_devolucao IS NOT NULL');

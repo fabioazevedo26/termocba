@@ -11,7 +11,7 @@
   .logo { height: 72px; width: auto; margin-right: 16px; flex-shrink: 0; }
   .cabecalho h1 { font-size: 15pt; margin: 0; color: #1b5e20; }
   .cabecalho .sub { font-size: 9.5pt; color: #555; }
-  h2.titulo { text-align: center; font-size: 14pt; margin: 6px 0 2px; text-transform: uppercase; letter-spacing: .5px; }
+  h2.titulo { text-align: center; font-size: 13.5pt; margin: 6px 0 2px; text-transform: uppercase; letter-spacing: .5px; }
   .numero { text-align: center; font-size: 10pt; color: #444; margin-bottom: 14px; }
   h3 { font-size: 12pt; margin: 10px 0 4px; text-transform: uppercase; color: #1b5e20; page-break-after: avoid; }
   h4 { font-size: 12pt; margin: 6px 0 3px; page-break-after: avoid; }
@@ -24,7 +24,9 @@
   table.equip th { background: #eef4ee; width: 28%; text-align: left; font-weight: 600; }
   .pre { white-space: pre-line; }
   .assinaturas { margin-top: 60px; page-break-inside: avoid; }
-  .quebra-pagina { page-break-before: always; }
+  /* Seção 7 + assinaturas ficam sempre juntas; o resto do texto corre livre entre as páginas. */
+  .fechamento { page-break-inside: avoid; }
+  p, li { orphans: 3; widows: 3; }
   .assinaturas .linha.unica { justify-content: center; }
   .assinaturas .linha.unica .assinatura { flex: 0 0 50%; }
   .assinaturas .linha { display: flex; justify-content: space-between; gap: 30px; margin-bottom: 30px; }
@@ -89,7 +91,7 @@
     <li>não realizar, por conta própria ou por meio de terceiros não autorizados, manutenções, reparos ou intervenções técnicas;</li>
     <li>observar as políticas de segurança da informação e de uso de recursos de TI vigentes no CBA.</li>
   </ul>
-  <h4 class="quebra-pagina">4.1 Roubo, furto ou extravio</h4>
+  <h4>4.1 Roubo, furto ou extravio</h4>
   <p>
     Em caso de roubo, furto ou extravio, o colaborador deverá comunicar o fato imediatamente ao Setor de TI e à
     Diretoria Administrativa e providenciar o respectivo Boletim de Ocorrência junto à autoridade policial,
@@ -124,6 +126,7 @@
     de função que dispense o uso do(s) equipamento(s). A devolução será conferida e registrada pelo Setor de TI.
   </p>
 
+  <div class="fechamento">
   <h3>7. Disposições Finais</h3>
   <p>
     Este Termo entra em vigor na data de sua assinatura e permanece válido enquanto o(s) equipamento(s) estiver(em)
@@ -151,6 +154,7 @@
         <div class="det">CBA - Centro de Bionegócios da Amazônia</div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>
